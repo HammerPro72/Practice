@@ -1,0 +1,87 @@
+name={}
+number={"零":0,"一":1,"二":2,"三":3,"四":4,"五":5,"六":6,"七":7,"八":8,"九":9,'十':10}
+
+
+
+def trann(name):#中文转数字
+    global number
+    for x in number:
+        if name==x:
+            name=number[x]
+            return name
+
+def tranc(name):#数字转中文
+    global number
+    for x in number:
+        if name==number[x]:
+            return  x
+
+def add(x,y):
+    global name
+    z = trann(name[x]) + trann(y)
+    z = tranc(z)
+    name[x] = z
+
+
+def minus(x,y):
+    global name
+    z=trann(name[x])-trann(y)
+    z=tranc(z)
+    name[x]=z
+
+
+
+def carry(x,y):
+    global name
+    name[x] = y
+
+
+while 1:
+    sentence1=input()
+    sen=sentence1.split()
+    if sen[0] == "整数" :
+        if sen[2] == "等于":
+            carry(sen[1], sen[3])
+            key=''.join(tuple(name.keys()))
+            key.find(sen[0])  #为下文的所有的键判断是否存在做准备
+    elif key.find(sen[0]) != -1:  #判断键值是否存在
+        if sen[1] == "减少":  #判断是否为减少
+            minus(sen[0],sen[2])  #调用减函数
+        elif sen[1] == "增加": #判断是否为增加
+            add(sen[0], sen[2])  #调用加函数
+    elif sen[0] == "看看":
+        if key.find(sen[1]) != -1:  #判断键值是否存在
+            print(name[sen[1]])  #输出键值
+
+    elif sen[0] == "如果":
+        if  key.find(sen[1]) != -1:
+            if sen[2] == "大于":  #判断年龄大于指定情况
+                if trann(name[sen[1]]) > trann(sen[3]):
+                    if sen[4] == "则":
+                        if sen[5] == "小杨零花钱":
+                            if sen[6] == "增加":  # 年龄大时，多给零花钱
+                                add(sen[5], sen[7])
+                            elif sen[6] == "减少":  # 年龄大时，少给零花钱
+                                minus(sen[5], sen[7])
+
+            elif sen[2] == "小于":  #判断年龄小于指定情况
+                if trann(name[sen[1]]) < trann(sen[3]):
+                    if sen[4] == "则":
+                        if sen[5] == "小杨零花钱":
+                            if sen[6] == "增加":  #年龄小时，多给零花钱
+                                add(sen[5],sen[7])
+                            elif sen[6] == "减少":  #年龄小时，少给零花钱
+                                minus(sen[5],sen[7])
+
+            else:
+                print("未指定清楚小杨的年龄和零花钱安排")
+
+    else:
+        print("格式有误!")
+
+'''
+整数 小杨年龄 等于 八
+整数 小杨零花钱 等于 二
+小杨年龄 增加 一
+如果 小杨年龄 大于 八 则 小杨零花钱 增加 一 否则 无
+看看 小杨零花钱
