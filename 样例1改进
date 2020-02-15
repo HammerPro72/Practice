@@ -1,0 +1,83 @@
+import  re
+name={}
+number={"零":0,"一":1,"二":2,"三":3,"四":4,"五":5,"六":6,"七":7,"八":8,"九":9,'十':10}
+
+
+
+def trann(name):#中文转数字
+    global number
+    for x in number:
+        if name==x:
+            name=number[x]
+            return name
+
+def tranc(name):#数字转中文
+    global number
+    for x in number:
+        if name==number[x]:
+            return  x
+
+def add(x,y):
+    global name
+    x = trann(x)
+    y = trann(y)
+    z = x+y
+    z = tranc(z)
+    name[tuple(name.keys())[0]]= z
+
+def minus(x,y):
+    global name
+    x = trann(x)
+    y = trann(y)
+    z = x - y
+    z = tranc(z)
+    name[tuple(name.keys())[0]] = z
+
+
+def carry(x,y):
+    global name
+    name[x] = y
+
+
+while 1:
+    sentence1=input()
+    sen=sentence1.split()
+    if sen[0] == "整数" :
+        if sen[2] == "等于":
+            carry(sen[1], sen[3])
+    elif sen[0] == tuple(name.keys())[0]:
+        if sen[1] == "减少":
+            minus(name[tuple(name.keys())[0]],sen[2])
+        elif sen[1] == "增加":
+            add(name[tuple(name.keys())[0]], sen[2])
+    elif sen[0] == "看看":
+        if sen[1] == tuple(name.keys())[0]:
+            print(name[tuple(name.keys())[0]])
+    elif sen[0] == "如果":
+        if sen[1] == tuple(name.keys())[0]:
+            t = re.findall('\u201c(.*)\u201d', sen[6])
+            sen[6]=(''.join(t))
+            t = re.findall('\u201c(.*)\u201d', sen[9])
+            sen[9] =(''.join(t))
+            if sen[2] == "大于":
+                if trann(name[tuple(name.keys())[0]]) > trann(sen[3]):
+                    if sen[4] == "则":
+                        if sen[5] == "看看":
+                            print(sen[6])
+                else:
+                    if sen[7] == "否则":
+                        if sen[8] == "看看":
+                            print(sen[9])
+            elif sen[2] == "小于":
+                if trann(name[tuple(name.keys())[0]]) < trann(sen[3]):
+                    if sen[4] == "则":
+                        if sen[5] == "看看":
+                            print(sen[6])
+                else:
+                    if sen[7] == "否则":
+                        if sen[8] == "看看":
+                            print(sen[9])
+
+
+    else:
+        print("格式有误!")
