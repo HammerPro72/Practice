@@ -1,0 +1,143 @@
+name={}
+number={"零":0,"一":1,"二":2,"三":3,"四":4,"五":5,"六":6,"七":7,"八":8,"九":9,'十':10}
+to={"十":1,"百":1,"千":1}
+
+def trann(name):#中文转数字
+    global number
+    for x in number:
+        if name==x:
+            name=number[x]
+            return name
+
+def tranc(name):#数字转中文
+    global number
+    for x in number:
+        if name==number[x]:
+            return  x
+
+def tran_num(chinese):
+    global to
+    global number
+    global name
+    #三千二百一十一
+    result = list(chinese)
+    a=chinese.find("十")#5
+    b=chinese.find("百")#3
+    name = 0
+    for x in chinese:
+        if x.find("十") != -1:
+            name += trann(result[a-1]) * 10
+        elif x.find("百") != -1:
+            name += trann(result[b-1]) * 100
+    if result[-1].find('十') != -1:
+        if result[-1].find('百') != -1:
+            1
+    else:
+        name += trann(result[-1])
+    return name
+
+
+def tran_chinese(num):
+    global to
+    global number
+    global name
+    #三千二百一十一
+    a = num // 100
+    b = (num-100*a) // 10
+    c = (num-100*a-10*b) // 1
+    if a > 1:
+        a = tranc(a)+"百"
+    if b > 1:
+        b = tranc(b)+"十"
+    if c > 1:
+        c = tranc(c)
+    if a == 0:
+        name =c+b
+
+    return name
+
+tran_chinese(89)
+
+
+def add(x,y):
+    global name
+    z = tran_num(name[x]) + trann(y)
+    z = tran_chinese(z)
+    name[x] = z
+
+
+def minus(x,y):
+    global name
+    z=tran_num(name[x])-trann(y)
+    z=tran_chinese(z)
+    name[x]=z
+
+
+
+def carry(x,y):
+    global name
+    name[x] = y
+
+
+
+'''
+while 1:
+    sentence1=input()
+    sen=sentence1.split()
+    if sen[0] == "整数" :
+        if sen[2] == "等于":
+            carry(sen[1], sen[3])
+            key=''.join(tuple(name.keys()))
+            key.find(sen[0])  #为下文的所有的键判断是否存在做准备
+    #此下为增加减少操作语句
+    elif key.find(sen[0]) != -1:  #判断键值是否存在
+        if sen[1] == "减少":  #判断是否为减少
+            minus(sen[0],sen[2])  #调用减函数
+        elif sen[1] == "增加": #判断是否为增加
+            add(sen[0], sen[2])  #调用加函数
+    elif sen[0] == "看看":
+        if key.find(sen[1]) != -1:  #判断键值是否存在
+            print(name[sen[1]])  #输出键值
+    elif sen[0] == "如果":
+        if  key.find(sen[1]) != -1:
+            if sen[2] == "大于":  #判断年龄大于指定情况
+                if trann(name[sen[1]]) > trann(sen[3]):
+                    if sen[4] == "则":
+                        if key.find(sen[5]) != -1:
+                            if sen[6] == "增加":  # 年龄大时，多给零花钱
+                                add(sen[5], sen[7])
+                            elif sen[6] == "减少":  # 年龄大时，少给零花钱
+                                minus(sen[5], sen[7])
+
+            elif sen[2] == "小于":  #判断年龄小于指定情况
+                if trann(name[sen[1]]) < trann(sen[3]):
+                    if sen[4] == "则":
+                        if key.find(sen[5]) != -1:
+                            if sen[6] == "增加":  #年龄小时，多给零花钱
+                                add(sen[5],sen[7])
+                            elif sen[6] == "减少":  #年龄小时，少给零花钱
+                                minus(sen[5],sen[7])
+
+            elif sen[2] == "等于":  #判断年龄小于指定情况
+                if trann(name[sen[1]]) < trann(sen[3]):
+                    if sen[4] == "则":
+                        if sen[5] == key.find(sen[5]) != -1:
+                            if sen[6] == "增加":  #年龄小时，多给零花钱
+                                add(sen[5],sen[7])
+                            elif sen[6] == "减少":  #年龄小时，少给零花钱
+                                minus(sen[5],sen[7])
+
+            else:
+                print("未指定清楚小杨的年龄和零花钱安排")
+
+    else:
+        print("格式有误!")
+
+''''''
+整数 小杨年龄 等于 二十五
+整数 小杨零花钱 等于 二十
+小杨年龄 增加 十
+看看 小杨年龄
+如果 小杨年龄 小于 五 则 小杨零花钱 减少 二 否则 无
+看看 小杨年龄
+'''
